@@ -225,3 +225,38 @@ E-Mail: test@example.com
 
 Sorularınız veya sorunlarınız için lütfen GitHub Issues'ı kullanın.
 Kendi pdf kitaplarımı e-kitap okuyucu formatında düzenlemek için kullanıyorum.
+
+## 🌐 HTML Olarak GitHub'da Yayınlama (Mobil + Bilgisayar)
+
+Bu proje React ile üretim derlemesinde **statik HTML/CSS/JS** dosyalarına dönüşür ve GitHub Pages'te yayınlanabilir.
+
+### 1) GitHub Pages için frontend ayarları
+Bu repoda hazırlandı:
+- `client` için hash-router desteği (`REACT_APP_ROUTER_MODE=hash`)
+- GitHub Actions ile otomatik deploy (`.github/workflows/deploy-client-gh-pages.yml`)
+
+### 2) GitHub'da yayınlama adımları
+1. Bu repoyu GitHub'a push edin.
+2. GitHub repo ayarlarında **Settings → Pages → Source: GitHub Actions** seçin.
+3. `main` branch'e `client` tarafında bir commit gönderin.
+4. Action tamamlanınca siteniz şu formatta yayınlanır:
+   - `https://<kullanici-adi>.github.io/<repo-adi>/#/`
+
+### 3) Local test (HTML build)
+```bash
+cd client
+npm install
+REACT_APP_ROUTER_MODE=hash npm run build
+npx serve -s build
+```
+
+### 4) Mobil ve bilgisayarda çalışma
+- Yayınlanan GitHub Pages linki mobil tarayıcıda ve masaüstü tarayıcıda çalışır.
+- Arayüz responsive olduğu için telefon/tablet/desktop ekranlarına uyum sağlar.
+
+### Önemli Not (API)
+GitHub Pages sadece frontend'i yayınlar. Login, PDF upload, kütüphane gibi canlı işlemler için backend API'nizi ayrıca (Render/Railway/Fly.io vb.) yayınlayıp frontend'de şu değeri kullanmalısınız:
+
+```bash
+REACT_APP_API_URL=https://your-backend-domain/api
+```
