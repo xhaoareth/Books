@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
@@ -8,14 +8,16 @@ import Library from './pages/Library';
 import Reader from './pages/Reader';
 import './index.css';
 
+const RouterComponent = process.env.REACT_APP_ROUTER_MODE === 'hash' ? HashRouter : BrowserRouter;
+
 function App() {
   return (
-    <Router>
+    <RouterComponent>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          
+
           <Route
             path="/"
             element={
@@ -24,7 +26,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          
+
           <Route
             path="/read/:bookId"
             element={
@@ -33,11 +35,11 @@ function App() {
               </PrivateRoute>
             }
           />
-          
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </AuthProvider>
-    </Router>
+    </RouterComponent>
   );
 }
 
