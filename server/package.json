@@ -1,0 +1,28 @@
+{
+  "name": "books-server",
+  "version": "1.0.0",
+  "description": "E-Kitap Kütüphanesi Backend API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["ebook", "library", "pdf", "ocr"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "multer": "^1.4.5-lts.1",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.1.2",
+    "cors": "^2.8.5",
+    "sharp": "^0.33.0",
+    "tesseract.js": "^5.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # MongoDB Veritabanı
+  mongodb:
+    image: mongo:7.0
+    container_name: books-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: books-library
+
+  # Node.js Backend
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: books-server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      MONGODB_URI: mongodb://mongodb:27017/books-library
+      JWT_SECRET: your-secret-key-change-in-production
+      NODE_ENV: production
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server/uploads:/app/uploads
+
+  # React Frontend
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: books-client
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:5000/api
+    depends_on:
+      - server
+
+volumes:
+  mongodb_data:
